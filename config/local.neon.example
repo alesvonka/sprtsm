@@ -4,7 +4,7 @@ parameters:
 database:
 	db:
 		dsn: 'mysql:host=127.0.0.1;dbname=test'
-		user: root
-		password: mariadbrootpass
+		user: 
+		password: 
 		options:
 			lazy: yes
