@@ -1,19 +1,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width">
+
+	{include 'head.latte'}
 
 	<title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
 </head>
 
 <body>
-	<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 
-	{include content}
+	{snippet menu}
+		{include 'menu.latte'}
+	{/snippet}
+
+	<div n:snippet="flashes" class="container">	
+		<div n:foreach="$flashes as $flash" class="card-panel flash {$flash->type}">{$flash->message}</div>
+	</div>
+
+	{snippet content}
+		{include content}
+	{/snippet}
 
 	{block scripts}
-	<script src="https://nette.github.io/resources/js/3/netteForms.min.js"></script>
+		{include 'js.latte'}
 	{/block}
 </body>
 </html>
