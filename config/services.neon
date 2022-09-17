@@ -1,0 +1,3 @@
+services:
+	- App\Model\DbManager(@database.db.explorer)
+	- App\Router\RouterFactory::createRouter
