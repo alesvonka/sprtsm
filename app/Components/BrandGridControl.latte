@@ -1,8 +1,7 @@
 {snippet grid}
     <div style="padding:20px ;">
-        <a class="btn blue ajax" n:href="add!"><i class="material-icons">add</i> Přidat značku</a>
+        <a class="btn blue modal-trigger ajax" data-target="addModal" n:href="add!, id=>null"><i class="material-icons">add</i> Přidat značku</a>
     </div>
-    
 
     <table class="highlight">
         <thead>
@@ -22,7 +21,7 @@
             {foreach $brands AS $brand}
                 <tr>
                     <td>{$brand->name}</td>
-                    <td class="right"><a class="ajax" n:href="delete!, id=>$brand->id">Smazat</a> <a class="ajax" n:href="edit!, id=>$brand->id">Editovat</a></td>
+                    <td class="right"><a class="ajax" n:href="delete!, id=>$brand->id">Smazat</a> <a class="modal-trigger ajax" data-target="addModal" n:href="edit!, id=>$brand->id">Editovat</a></td>
                 <tr>
             {/foreach}
         </tbody>
@@ -93,3 +92,15 @@
         </tfoot>
     </table>
 {/snippet}
+
+
+  <!-- Modal Structure -->
+<div id="addModal" class="modal">
+    <div class="modal-content">
+        <div class="right"><a href="#!" class="modal-close waves-effect waves-green btn-flat"><i class="material-icons">close</i></a></div>
+        <h4>Přidat značku</h4>
+        {snippet brandForm}
+            {control brandForm}
+        {/snippet}
+    </div>
+    </div>
