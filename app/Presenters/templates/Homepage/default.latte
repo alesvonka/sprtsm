@@ -3,13 +3,6 @@
 {block content}
 
 <div class="container">
-	<a class="ajax" n:href="test!">flash messages</a>
-
-	{foreach $brands AS $brand}
-		<div class="row">
-			<div class="col s3">{$brand->name}</div>
-			<div class="col s9">{$brand->update_datetime|date:'j.n.Y H:i:s'}</div>
-		<div>
-	{/foreach}
+	{control brand}
 </div>
 
