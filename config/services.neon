@@ -1,7 +1,7 @@
 services:
 	- App\Model\DbManager(@database.db.explorer)
 	- App\Model\BrandManager
-
-	- App\Control\BrandGridControlFactory
+	
+	- App\Control\BrandFormControlFactory
 
 	- App\Router\RouterFactory::createRouter

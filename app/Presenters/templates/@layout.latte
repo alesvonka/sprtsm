@@ -7,22 +7,54 @@
 	<title>{ifset title}{include title|stripHtml} | {/ifset}Nette Web</title>
 </head>
 
-<body>
+<body class="grey lighten-3">
 
 	{snippet menu}
 		{include 'menu.latte'}
 	{/snippet}
 
-	<div n:snippet="flashes" class="container">	
-		<div n:foreach="$flashes as $flash" class="card-panel flash {$flash->type}">{$flash->message}</div>
+	<div class="card" style="margin-top: 0; margin-bottom: 0;">
+		<div class="card-action blue white-text">
+			{ifset title}{include title|stripHtml}{/ifset}
+		</div>
 	</div>
 
-	{snippet content}
-		{include content}
-	{/snippet}
+	<div style="padding:10px;">
+		<div n:snippet="flashes" class="container">	
+			<div n:foreach="$flashes as $flash" class="card-panel flash {$flash->type}">{$flash->message}</div>
+		</div>
+	
+		{snippet content}
+			{include content}
+		{/snippet}
+	</div>
 
 	{block scripts}
 		{include 'js.latte'}
 	{/block}
+
+	{include modal}
 </body>
 </html>
+
+{define modal}
+<div n:snippet="modal">
+	{ifset $modal}
+	<div id="modal" class="modal {ifset #modal-{$modal}-params}{include #modal-{$modal}-params}{/ifset}">
+			<div class="modal-content">
+				<div class="right"><a href="#" class="modal-close waves-effect waves-green btn-flat"><i class="material-icons">close</i></a></div>
+				<h4>
+					{ifset #modal-{$modal}-title}{include #"modal-{$modal}-title"}{/ifset}
+				</h4>
+				{ifset #modal-{$modal}-body}{include #"modal-{$modal}-body"}{/ifset}
+
+				{ifset #modal-{$modal}-footer}
+				<div class="modal-footer">
+					{include #"modal-{$modal}-footer"}
+				</div>
+				{/ifset}
+			</div>
+	</div>
+	{/ifset}
+</div>
+{/define}
