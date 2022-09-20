@@ -34,13 +34,13 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
     public $sort = 'asc';
 
     #[Persistent]
-    public $id;
+    public $id = null;
 
 
     public function beforeRender()
     {
         if ($this->isAjax()) {
-            $this->redrawControl('grid');
+           $this->redrawControl('grid');
         }
     }
 
@@ -51,6 +51,8 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
 
             if ($this->isAjax()) {
                 $this->redrawControl('grid');
+                $this->payload->postGet = true;
+                $this->payload->url = $this->link('this');
             }
         }
     }
@@ -72,15 +74,16 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
         if ($id) {
 
             $item = $this->brandManager->items()->get($id);
+            $this->id = null;
 
             if ($item) {
                 $item->delete();
             }
 
             if ($this->isAjax()) {
-                $this->payload->postGet = true;
-                $this->payload->url = $this->link('this');
                 $this->redrawControl('grid');
+                $this->payload->postGet = true;
+                $this->payload->url = $this->link('default');
             }
         }
     }
@@ -90,10 +93,10 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
         $control = $this->brandFormControlFactory->create();
 
         $control->onFormSuccess[] = function () {
+            $this->redrawControl('grid');
             $this->payload->hideModal = true;
             $this->payload->postGet = true;
-            $this->payload->url = $this->link('this');
-            $this->redrawControl('grid');
+            $this->payload->url = $this->link('default');
         };
 
         return $control;
@@ -104,11 +107,14 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
         $control = $this->brandFormControlFactory->create((int) $this->id);
 
         $control->onFormSuccess[] = function () {
+
             $this->id = null;
+            $this->redrawControl('grid');
             $this->payload->hideModal = true;
             $this->payload->postGet = true;
-            $this->payload->url = $this->link('this');
-            $this->redrawControl('grid');
+            $this->payload->url = $this->link('default');
+
+            
         };
 
         return $control;
@@ -123,6 +129,13 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
         $lastPage = 0;
 
         $this->template->brands = $brands->page($this->page, $this->parePage, $lastPage);
+
+        // Kdyz je cislo stranky vetsi nez kolik je posledni stranka, redirect na prvni stranku.
+        if($this->page > $lastPage)
+        {
+           $this->redirect('this',['page'=>1]);
+        }
+
         $this->template->page = $this->page;
         $this->template->parePage = $this->parePage;
         $this->template->lastPage = $lastPage;
