@@ -21,8 +21,9 @@ class BrandFormControl extends Control
 
     public function __construct(
         private BrandManager $brandManager,
-        $id
-    ) {
+                             $id
+    )
+    {
         $this->id = $id;
     }
 
@@ -60,7 +61,7 @@ class BrandFormControl extends Control
                 $this->item->update([
                     'name' => $values->name,
                 ]);
-                
+
                 $this->onFormSuccess();
             } catch (UniqueConstraintViolationException $e) {
                 $form->addError($values->name . ' už existuje. Zadejte jiný název značky.');

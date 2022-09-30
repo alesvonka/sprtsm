@@ -40,7 +40,7 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
     public function beforeRender()
     {
         if ($this->isAjax()) {
-           $this->redrawControl('grid');
+            $this->redrawControl('grid');
         }
     }
 
@@ -62,7 +62,13 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
         $this->handleModal('addBrandModal');
     }
 
-    public function handleEdit($id): void
+    /**
+     * Undocumented function
+     *
+     * @param string $id
+     * @return void
+     */
+    public function handleEdit(string $id): void
     {
         if ($id) {
             $this->handleModal('editBrandModal');
@@ -104,7 +110,7 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
 
     public function createComponentEditBrandForm(): BrandFormControl
     {
-        $control = $this->brandFormControlFactory->create((int) $this->id);
+        $control = $this->brandFormControlFactory->create((int)$this->id);
 
         $control->onFormSuccess[] = function () {
 
@@ -114,7 +120,7 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
             $this->payload->postGet = true;
             $this->payload->url = $this->link('default');
 
-            
+
         };
 
         return $control;
@@ -131,9 +137,8 @@ final class HomepagePresenter extends Nette\Application\UI\Presenter
         $this->template->brands = $brands->page($this->page, $this->parePage, $lastPage);
 
         // Kdyz je cislo stranky vetsi nez kolik je posledni stranka, redirect na prvni stranku.
-        if($this->page > $lastPage)
-        {
-           $this->redirect('this',['page'=>1]);
+        if ($this->page > $lastPage) {
+            $this->redirect('this', ['page' => 1]);
         }
 
         $this->template->page = $this->page;
